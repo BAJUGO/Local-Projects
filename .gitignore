@@ -1,0 +1,9 @@
+# Default ignored files
+.idea/LocalProjects.iml
+.idea/inspectionProfiles/Project_Default.xml
+# Editor-based HTTP Client requests
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
