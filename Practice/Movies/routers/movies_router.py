@@ -35,11 +35,16 @@ async def delete_movie(movie_id: int, db=db_dep):
     return functions.delete_movie(db, movie_id)
 
 
-@router.put("/{movie_id}")
+@router.put("/id/{movie_id}")
 async def update_movie(movie_id: int, movie: MovieCreate, db=db_dep):
     return functions.update_movie(db, movie_id, movie)
 
 
-@router.get("/{year}")
+@router.get("/year/{year}")
 async def movies_by_year(year:int, db=db_dep):
     return functions.find_movies_by_year(db, year)
+
+
+@router.get("/title/{find_title}")
+async def find_movie_by_title(find_title: str, db=db_dep):
+    return functions.find_movie_by_title(db, find_title)

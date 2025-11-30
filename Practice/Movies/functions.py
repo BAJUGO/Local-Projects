@@ -50,3 +50,10 @@ def find_movies_by_year(db: Session, year: int):
     if movies_by_year:
         return {f"Movies by {year} year:": movies_by_year}
     return {"There weren't any movies at this year"}
+
+
+def find_movie_by_title(db: Session, find_title: str):
+    movie_by_title = db.query(Movie).filter(Movie.title==find_title).all()
+    if movie_by_title:
+        return movie_by_title
+    raise HTTPException(status_code=404, detail="Movie wasn't found")
