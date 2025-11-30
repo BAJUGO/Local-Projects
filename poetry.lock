@@ -87,17 +87,6 @@ files = [
 ]
 
 [[package]]
-name = "cowsay"
-version = "6.1"
-description = "The famous cowsay for GNU/Linux is now available for python"
-optional = false
-python-versions = ">=3.8"
-groups = ["main"]
-files = [
-    {file = "cowsay-6.1-py3-none-any.whl", hash = "sha256:274b1e6fc1b966d53976333eb90ac94cb07a450a700b455af9fbdf882244b30a"},
-]
-
-[[package]]
 name = "decorator"
 version = "5.2.1"
 description = "Decorators for Humans"
@@ -1298,4 +1287,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "7922e544eb5dcb1e2dec69c5677f66a182bbd726b6507939fa368933cece90f7"
+content-hash = "861d03a0b6ede8a4d85e10ba2407dd76efedaca7848ea68b3e641ae2a33cf81a"
