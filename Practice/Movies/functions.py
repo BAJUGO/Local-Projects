@@ -4,6 +4,12 @@ from .model import Movie
 from fastapi.exceptions import HTTPException
 
 
+
+def get_movies(db: Session):
+    return db.query(Movie).all()
+
+
+
 def add_movie(db: Session, movie: MovieCreate):
     movie_to_database = Movie(**movie.model_dump())
 
