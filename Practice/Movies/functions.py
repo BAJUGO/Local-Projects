@@ -24,4 +24,13 @@ def add_movie(db: Session, movie: MovieCreate):
     return movie_to_database
 
 
+def delete_movie(db: Session, movie_id: int):
+    movie_to_delete = db.query(Movie).get({"id":movie_id})
+    if not movie_to_delete is None:
+        db.delete(movie_to_delete)
+        db.commit()
+        return {"This movie was deleted:": movie_to_delete}
+    raise HTTPException(status_code=404, detail="movie wasn't found")
+
+
 

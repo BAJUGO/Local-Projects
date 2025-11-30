@@ -30,3 +30,6 @@ async def add_movie(movie: MovieCreate, db=db_dep):
     return functions.add_movie(db, movie)
 
 
+@router.delete("/{movie_id}")
+async def delete_movie(movie_id: int, db=db_dep):
+    return functions.delete_movie(db, movie_id)
