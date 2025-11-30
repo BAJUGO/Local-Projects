@@ -3,6 +3,7 @@ from ..schemas import MovieCreate
 from ..db import get_db
 from sqlalchemy.orm import Session
 from .. import functions
+from ..dependencies.token_dep import check_admin_token
 
 
 db_dep: Session = Depends(get_db)
@@ -10,7 +11,8 @@ db_dep: Session = Depends(get_db)
 
 router = APIRouter(
     prefix="/movies",
-    tags=["Movies"]
+    tags=["Movies"],
+    dependencies=[Depends(check_admin_token)]
 )
 
 

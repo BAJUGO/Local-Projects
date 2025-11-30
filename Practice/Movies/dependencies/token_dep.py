@@ -7,3 +7,6 @@ def check_admin_token(admin_token = Header()):
         raise custom_exc.not_enough_rights()
 
 
+def check_ultra_admin_token(ultra_admin_token = Header()):
+    if ultra_admin_token != "ultra-admin":
+        raise custom_exc.not_enough_rights()
