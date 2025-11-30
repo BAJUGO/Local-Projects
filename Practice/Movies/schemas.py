@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
+from .custom_exceptions import custom_exc
 
 
 class MoviePost(BaseModel):
@@ -9,7 +10,15 @@ class MoviePost(BaseModel):
 
 
 class MovieCreate(MoviePost):
-    pass
+    @model_validator(mode="after")
+    def check_values(self):
+        if self.title == "string":
+            raise custom_exc.ModelValueError(reason="Title of the movie can't be 'string'")
+        if self.description == "string":
+            self.description = "None"
+        if self.director == "string":
+            self.director = "Anonym"
+        return self
 
 
 class Movie(MoviePost):

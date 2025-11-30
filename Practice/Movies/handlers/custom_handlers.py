@@ -2,6 +2,8 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.exception_handlers import http_exception_handler, request_validation_exception_handler
 from datetime import datetime
+from ..custom_exceptions import custom_exc
+from fastapi.responses import JSONResponse
 
 
 def find_p_m_i_a(request: Request, additional = None):
@@ -39,5 +41,12 @@ def create_exceptions_handlers(app: FastAPI):
             log_exception(info)
 
 
+    @app.exception_handler(custom_exc.ModelValueError)
+    async def work_with_model_value_error(request: Request, exc: custom_exc.ModelValueError):
+        info = find_p_m_i_a(request, additional=[exc.reason, exc.name])
+        try:
+            return JSONResponse(status_code=406, content={"detail": exc.reason})
+        finally:
+            log_exception(info)
 
 

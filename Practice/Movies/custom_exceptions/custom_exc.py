@@ -4,4 +4,7 @@ no_such_movie = HTTPException(status_code=404, detail="There is no something you
 not_enough_rights = HTTPException(status_code=403, detail="You have not enough rights")
 
 
-
+class ModelValueError(Exception):
+    def __init__(self, reason):
+        self.name = "ModelValueError"
+        self.reason = reason
