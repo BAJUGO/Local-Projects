@@ -1,6 +1,6 @@
 from .schemas import MovieCreate
 from sqlalchemy.orm import Session
-from .model import Movie
+from .models import Movie
 from fastapi.exceptions import HTTPException
 
 

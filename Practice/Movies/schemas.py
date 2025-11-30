@@ -17,3 +17,23 @@ class Movie(MoviePost):
 
     class Config:
         from_attribute = True
+
+
+
+class SeriesPost(BaseModel):
+    title: str
+    seasons: int
+    episodes: int
+    description: str
+    year: int
+
+
+class SeriesCreate(SeriesPost):
+    pass
+
+
+class Series(SeriesCreate):
+    id: int
+
+    class Config:
+        from_attribute=True

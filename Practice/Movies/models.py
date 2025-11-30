@@ -12,3 +12,12 @@ class Movie(BaseClass):
     year = Column(Integer)
 
 
+class Series(BaseClass):
+    __tablename__ = "Series"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String, index=True)
+    seasons = Column(Integer)
+    episodes = Column(Integer)
+    description = Column(String, index=True)
+    year = Column(Integer)
