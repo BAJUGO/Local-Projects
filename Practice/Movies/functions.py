@@ -33,4 +33,15 @@ def delete_movie(db: Session, movie_id: int):
     raise HTTPException(status_code=404, detail="movie wasn't found")
 
 
+def update_movie(db: Session, movie_id: int, movie: MovieCreate):
+    movie_to_update = db.query(Movie).get({"id":movie_id})
+    if movie_to_update:
+        for key, value in movie.model_dump().items():
+            setattr(movie_to_update, key, value)
+        db.commit()
+        db.refresh(movie_to_update)
+        return movie_to_update
+    else:
+        return {"There was no such a movie, so movie created:": add_movie(db, movie)}
+
 
