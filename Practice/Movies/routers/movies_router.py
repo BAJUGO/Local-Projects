@@ -5,7 +5,9 @@ from sqlalchemy.orm import Session
 from .. import functions
 
 
+
 db_dep: Session = Depends(get_db)
+type_of_db = "Movie"
 
 
 router = APIRouter(

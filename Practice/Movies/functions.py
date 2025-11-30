@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from .models import Movie
 from fastapi.exceptions import HTTPException
 
+#!Functions for the Movie
+
 
 
 def get_movies(db: Session):
@@ -50,3 +52,8 @@ def find_movies_by_year(db: Session, year: int):
     if movies_by_year:
         return {f"Movies by {year} year:": movies_by_year}
     return {"There weren't any movies at this year"}
+
+
+
+#!Functions for the Series
+
