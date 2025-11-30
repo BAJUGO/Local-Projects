@@ -45,3 +45,8 @@ def update_movie(db: Session, movie_id: int, movie: MovieCreate):
         return {"There was no such a movie, so movie created:": add_movie(db, movie)}
 
 
+def find_movies_by_year(db: Session, year: int):
+    movies_by_year = db.query(Movie).filter(Movie.year==year).all()
+    if movies_by_year:
+        return {f"Movies by {year} year:": movies_by_year}
+    return {"There weren't any movies at this year"}
