@@ -35,7 +35,7 @@ def delete_movie(db: Session, movie_id: int):
     raise custom_exc.no_such_movie()
 
 
-def update_movie(db: Session, movie_id: int, movie: MovieCreate):
+def update_movie(db: Session, movie_id: int, movie: MovieCreate, response: Response):
     movie_to_update = db.query(Movie).get({"id":movie_id})
     if movie_to_update:
         for key, value in movie.model_dump().items():
@@ -44,13 +44,12 @@ def update_movie(db: Session, movie_id: int, movie: MovieCreate):
         db.refresh(movie_to_update)
         return movie_to_update
     else:
-        return {"There was no such a movie, so movie created:": add_movie(db, movie)}
+        return {"There was no such a movie, so movie created:": add_movie(db, movie, response)}
 
 
 def find_movies_by_year(db: Session, year: int):
     movies_by_year = db.query(Movie).filter(Movie.year==year).all()
     if movies_by_year:
-        response.status_code=202
         return {f"Movies by {year} year:": movies_by_year}
     return custom_exc.no_such_movie()
 

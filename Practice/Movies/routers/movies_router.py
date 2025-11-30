@@ -24,7 +24,6 @@ async def get_movie_by_id(movie_id: int, db=db_dep):
     return functions.get_movie_by_id(db, movie_id)
 
 
-
 @router.post("/")
 async def add_movie(movie: MovieCreate, response: Response, db=db_dep):
     return functions.add_movie(db, movie, response)
