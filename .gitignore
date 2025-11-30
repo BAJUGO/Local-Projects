@@ -10,3 +10,4 @@
 __pycache__/
 #git rm --cached -r Practice/Movies/__pycache__/
 #git rm --cached -r Practice/Movies/routers/__pycache__/
+Practice/Movies/log.txt
