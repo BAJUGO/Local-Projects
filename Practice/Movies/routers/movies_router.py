@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from ..schemas import MovieCreate
 from ..db import get_db
 from sqlalchemy.orm import Session
@@ -26,8 +26,8 @@ async def get_movie_by_id(movie_id: int, db=db_dep):
 
 
 @router.post("/")
-async def add_movie(movie: MovieCreate, db=db_dep):
-    return functions.add_movie(db, movie)
+async def add_movie(movie: MovieCreate, response: Response, db=db_dep):
+    return functions.add_movie(db, movie, response)
 
 
 @router.delete("/{movie_id}")
@@ -41,7 +41,7 @@ async def update_movie(movie_id: int, movie: MovieCreate, db=db_dep):
 
 
 @router.get("/year/{year}")
-async def movies_by_year(year:int, db=db_dep):
+async def movies_by_year(year: int, db=db_dep):
     return functions.find_movies_by_year(db, year)
 
 

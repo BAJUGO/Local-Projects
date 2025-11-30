@@ -1,9 +1,9 @@
 from fastapi import Header
-from fastapi.exceptions import HTTPException
+from ..custom_exceptions import custom_exc
 
 
 def check_admin_token(admin_token = Header()):
     if admin_token != "admin":
-        raise HTTPException(status_code=409, detail="You are not good enough")
+        raise custom_exc.not_enough_rights()
 
 
