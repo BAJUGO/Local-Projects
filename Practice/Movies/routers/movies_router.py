@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from .. import functions
 
 
-
+db_dep: Session = Depends(get_db)
 
 
 router = APIRouter(
@@ -15,12 +15,18 @@ router = APIRouter(
 
 
 @router.get("/")
-async def read_movies(db: Session = Depends(get_db)):
+async def read_movies(db=db_dep):
     return functions.get_movies(db)
 
 
+@router.get("/{movie_id}")
+async def get_movie_by_id(movie_id: int, db=db_dep):
+    return functions.get_movie_by_id(db, movie_id)
+
+
+
 @router.post("/")
-async def add_movie(movie: MovieCreate, db: Session = Depends(get_db)):
+async def add_movie(movie: MovieCreate, db=db_dep):
     return functions.add_movie(db, movie)
 
 

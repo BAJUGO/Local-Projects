@@ -9,6 +9,12 @@ def get_movies(db: Session):
     return db.query(Movie).all()
 
 
+def get_movie_by_id(db: Session, movie_id: int):
+    movie_by_id = db.query(Movie).get({"id":movie_id})
+    if not movie_by_id is None:
+        return movie_by_id
+    raise HTTPException(status_code=404, detail="movie wasn't found")
+
 
 def add_movie(db: Session, movie: MovieCreate):
     movie_to_database = Movie(**movie.model_dump())
@@ -16,5 +22,6 @@ def add_movie(db: Session, movie: MovieCreate):
     db.commit()
     db.refresh(movie_to_database)
     return movie_to_database
+
 
 
