@@ -11,6 +11,8 @@ cowsay = "^6.1"
 sqlalchemy = "^2.0.44"
 fastapi = "^0.122.0"
 uvicorn = {extras = ["standard"], version = "^0.38.0"}
+psycopg2-binary = "^2.9.11"
+ipython = "^9.7.0"
 
 
 [build-system]

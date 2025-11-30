@@ -3,6 +3,8 @@ from sqlalchemy import Integer, String, Column
 
 
 class Movie(BaseClass):
+    __tablename__ = "Movies"
+
     id = Column(Integer, primary_key=True)
     title = Column(String, index=True)
     director = Column(String)
