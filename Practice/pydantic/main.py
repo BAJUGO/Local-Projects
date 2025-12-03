@@ -11,7 +11,7 @@ class Cat(BaseModel):
     cat_email: EmailStr
     name: str = Field(min_length=3, max_length=20, description="Cat description", title="model title", examples=["cotMotros"])
     age: int = Field(ge=0, le=20)
-    idk: str | None = Field(default=None, max_length=500)
+    idk: str | None = Field(default=None, max_length=500, alias="Description")
     listss: list[str] = Field(default_factory=list)
 
 
@@ -30,8 +30,8 @@ class Cat(BaseModel):
     def find_cat_weight(self):
         return self.age * 20
 
-
-    model_config = {"extra": "forbid"}
+    model_config = {"extra": "forbid",
+                    "validate_assigment": "True"}
 
 
 class ChildClass(BaseModel):
@@ -43,3 +43,55 @@ class ChildClass(BaseModel):
 @app.post("/cat")
 async def post_cat(cat: Cat):
     return cat
+
+
+
+
+class AliasCheck(BaseModel):
+    all: str = Field(..., alias="username")
+    validate_only: str = Field(..., validation_alias="userage")
+    serialization_only: str = Field(..., serialization_alias="useremail")
+
+#! В сериализации, входные данные должны иметь название serialization_only, а выходные будут иметь useremail
+#! В валидации, входные данные должны иметь название userage, однако на выходе будут validate_only
+#! alias включает в себя два метода.
+#! При model_dump() если мы хотим вывести модель, нужно писать model_dump(by_alias=True)
+
+
+
+class ModelA(BaseModel):
+    name: str
+    age: int
+
+    model_config = {
+        "revalidate_instances": "always",
+        #validate_assignment: True
+    }
+
+class ModelB(BaseModel):
+    ma: ModelA
+    something_new: str
+
+
+
+
+#! В общем-то, что понял - лучше всего ставить эти значения у модели, от которой дальше пойдёт присваивание.
+#! Так как мы поставили revalidate_instance, то перед тем как входить в другую модель, он проверяет, правильные ли
+#! все значения он имеет. Так как не стоит validate_assignment, то он не видит ошибки в a.age = "Wrong"
+#! Но опять же, когда это входит в другую модель - он видит ошибки. Сначала подумал прям супер бесполезно, сейчас думаю
+#! просто не очень полезно. Сойдёт
+
+
+
+a = ModelA(name="Dimka", age=12)
+
+a.age = "Wrong"
+print(a) # Можно
+
+ModelBExample = ModelB(ma=a, something_new="Cool")
+
+a.age = "Wrong"
+
+ModelBExample2 = ModelB(ma=a, something_new="Not cool")
+
+print(ModelBExample2)
