@@ -7,10 +7,10 @@ html = """
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Multi-client Chat</title>
+        <title>Chat</title>
     </head>
     <body>
-        <h1>WebSocket Multi-client Chat</h1>
+        <h1>WebSocket Chat</h1>
         <h2>Your ID: <span id="ws-id"></span></h2>
         <form action="" onsubmit="sendMessage(event)">
             <input type="text" id="messageText" autocomplete="off"/>
@@ -40,6 +40,7 @@ html = """
 </html>
 """
 
+
 class ConnectionManager:
     def __init__(self):
         self.active_connections: list[WebSocket] = []
@@ -51,18 +52,21 @@ class ConnectionManager:
     def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
 
-    async def send_personal_message(self,message: str, websocket: WebSocket):
+    async def send_personal_message(self, message: str, websocket: WebSocket):
         await websocket.send_text(message)
 
     async def broadcast(self, message: str):
         for connection in self.active_connections:
             await connection.send_text(message)
 
+
 manager = ConnectionManager()
+
 
 @app.get("/")
 async def get():
     return HTMLResponse(html)
+
 
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
