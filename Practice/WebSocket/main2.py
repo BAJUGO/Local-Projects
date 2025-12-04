@@ -7,11 +7,17 @@ from fastapi import (
     Query,
     WebSocket,
     WebSocketException,
-    status,
+    status, # Это можно использовать как для HTTP, так и для WebSocket
 )
 from fastapi.responses import HTMLResponse
 
 app = FastAPI()
+
+
+#! По поводу form[label, value] - label просто делает так скажем подпись для этого поля. У нас после label сразу идёт itemId и Token, в которых
+#! тот самый <input type="text"..., который был в предыдущем примере
+#! По поводу ; - ставь их после объявления переменных, и объявления безымянных функций. В остальных случаях не нужно. Безымянные функции на примере onmessage - там
+#! просто осуществляется какая-то функция
 
 html = """
 <!DOCTYPE html>
@@ -21,37 +27,47 @@ html = """
     </head>
     <body>
         <h1>WebSocket Chat</h1>
-        <form action="" onsubmit="sendMessage(event)">
-            <label>Item ID: <input type="text" id="itemId" autocomplete="off" value="foo"/></label>
-            <label>Token: <input type="text" id="token" autocomplete="off" value="some-key-token"/></label>
+        <form onsubmit="sendMessage(event)">
+            <label>Item ID <input type="text" id="inputID" value="Foo" autocomplete="off"></label>
+            <label>Token <input type="text" id="inputToken" value="token" autocomplete="off"></label>
             <button onclick="connect(event)">Connect</button>
             <hr>
-            <label>Message: <input type="text" id="messageText" autocomplete="off"/></label>
-            <button>Send</button>
+            <br>
+            <label>Text <input type="text" id="inputText" autocomplete="off"></label>
+            <button type="submit">Send</button>
         </form>
-        <ul id='messages'>
+        
+        <ul id="messagesList">
         </ul>
+        
         <script>
+        
         var ws = null;
-            function connect(event) {
-                var itemId = document.getElementById("itemId")
-                var token = document.getElementById("token")
-                ws = new WebSocket("ws://localhost:8000/items/" + itemId.value + "/ws?token=" + token.value);
-                ws.onmessage = function(event) {
-                    var messages = document.getElementById('messages')
-                    var message = document.createElement('li')
-                    var content = document.createTextNode(event.data)
-                    message.appendChild(content)
-                    messages.appendChild(message)
-                };
-                event.preventDefault()
-            }
-            function sendMessage(event) {
-                var input = document.getElementById("messageText")
-                ws.send(input.value)
-                input.value = ''
-                event.preventDefault()
-            }
+        
+        function connect(event) {
+        var ID = document.getElementById("inputID");
+        var token = document.getElementById("inputToken");
+        ws = new WebSocket("ws://localhost:8000/items/" + ID.value + "/ws?token=" + token.value)
+        
+        ws.onmessage = function(event) {
+            var messagesList = document.getElementById("messagesList")
+            var message = document.createElement("li")        
+            message.textContent = event.data
+            messagesList.appendChild(message)
+        };
+        
+        event.preventDefault()
+        }
+        
+        function sendMessage(event) {
+        var input = document.getElementById("inputText")
+        ws.send(input.value)
+        input.value = ''
+        event.preventDefault()
+        }
+        
+        
+        
         </script>
     </body>
 </html>
