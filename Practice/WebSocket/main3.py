@@ -2,6 +2,11 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 import json
 
+'''Tips'''
+#* Ловим WebSocketDisconnect при отправке сообщений, чтобы сервер не падал, если клиент отключился
+#* Никогда не забываем вызывать await websocket.accept() перед receive/send, иначе WebSocket не подключен
+#* Проверяем payload на JSONDecodeError, чтобы принимать как простые строки или как объекты с target
+#* Всегда проверяем, что target существует в active_connections перед отправкой приватного сообщения
 
 
 app = FastAPI()
